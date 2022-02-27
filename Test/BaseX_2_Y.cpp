@@ -173,3 +173,71 @@ TEST_CASE(__FILE__"/NotLimitedByIntegerLimits", "[BaseX_2_Y]")
     // Verify that hex_initial equals hex_converted
     REQUIRE(hex_initial == hex_convertedBack);
 }
+
+// Test to convert weird bases (longer to shorter)
+TEST_CASE(__FILE__"/BaseLongCustom_to_ShortCustom", "[BaseX_2_Y]")
+{
+    // Let's convert from fruits to beers
+
+    // Setup
+    const std::vector<std::string> set_in  = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
+    const std::vector<std::string> set_out = { "heinecken", "corona", "flensburger", "rothaus" };
+    const std::vector<std::string> in           = { "apricot", "apple", "apple" };
+    const std::vector<std::string> expected_out = { "flensburger", "corona", "heinecken" };
+
+    // Exercise
+    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}
+
+// Test to convert weird bases (shorter to longer)
+TEST_CASE(__FILE__"/BaseShortCustom_to_LongCustom", "[BaseX_2_Y]")
+{
+    // Let's convert from fruits to beers
+
+    // Setup
+    const std::vector<std::string> set_in  = { "heinecken", "corona", "flensburger", "rothaus" };
+    const std::vector<std::string> set_out = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
+    const std::vector<std::string> in           = { "flensburger", "corona", "heinecken" };
+    const std::vector<std::string> expected_out = { "apricot", "apple", "apple" };
+
+    // Exercise
+    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}
+
+// Tests that converting from a normal base to a custom base works
+TEST_CASE(__FILE__"/Base10_to_fruits", "[BaseX_2_Y]")
+{
+    // Setup
+    const std::string set_in  = "0123456789";
+    const std::vector<std::string> set_out = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
+    const std::string in = "599";
+    const std::vector<std::string> expected_out = { "avocado", "bell pepper", "banana", "bilberry" };
+
+    // Exercise
+    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}
+
+// Tests that converting from a custom base to a normal base works
+TEST_CASE(__FILE__"/Base1_fruits_to_10", "[BaseX_2_Y]")
+{
+    // Setup
+    const std::vector<std::string> set_in = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
+    const std::string set_out = "0123456789";
+    const std::vector<std::string> in = { "avocado", "bell pepper", "banana", "bilberry" };
+    const std::string expected_out = "599";
+
+    // Exercise
+    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}

@@ -46,7 +46,8 @@ public:
     //! \param set_out The desired set/base to output
     //! \param minLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
     //! \return `num` in base `set_out`
-    static std::string BaseX_2_Y(const std::string& num, const std::string& set_in, const std::string& set_out, const std::uint32_t minOutLen = 1);
+    template <class T_ContainerIn, class T_ContainerOut>
+    static T_ContainerOut  BaseX_2_Y(const T_ContainerIn& num, const T_ContainerIn& set_in, const T_ContainerOut& set_out, const std::uint32_t minOutLen = 1);
 
 private:
     // No instantiation! >:(
@@ -161,6 +162,60 @@ GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned 
 
     // else return the answer
     return std::make_pair(result, curRest);
+}
+
+template <class T_ContainerIn, class T_ContainerOut>
+T_ContainerOut GeneralUtility::BaseX_2_Y(const T_ContainerIn& num, const T_ContainerIn& set_in, const T_ContainerOut& set_out, const std::uint32_t minOutLen) {
+    if ((set_in.size() == 0) || (set_out.size() == 0))
+        throw std::logic_error("Can't convert from or to base0! Please supply a nonempty set!");
+
+    T_ContainerOut result;
+
+    // Generate a 0-value string for inbase
+    const T_ContainerIn zeroInbase({set_in[0]});
+
+    if (num != zeroInbase) {
+        // Populate result object
+        {
+            T_ContainerIn buf = num;
+            while (buf != zeroInbase) {
+                const auto divRes = DigitstringDivision(buf, set_out.size(), set_in);
+                const std::uint64_t mod = divRes.second;
+                buf = divRes.first;
+                result.insert(result.cend(), set_out[mod]);
+            }
+        }
+
+        // Reverse result object item order
+        {
+            // Now reverse result
+            T_ContainerOut buf = result;
+            result.clear();
+            for (std::size_t i = 0; i < buf.size(); i++)
+                result.insert(result.cend(), buf[buf.size() - i - 1]);
+        }
+    }
+    else
+    {
+        // If num is 0, just pass a null-value. The algorithm would hang otherwise.
+        result.insert(result.cend(), set_out[0]);
+    }
+
+
+    // Add as much null-values to the left as requested.
+    if (result.size() < minOutLen)
+    {
+        const std::size_t cachedLen = result.size();
+        const T_ContainerOut cachedStr = result;
+        result.clear();
+        for (std::size_t i = 0; i < minOutLen - cachedLen; i++)
+            result.insert(result.cend(), set_out[0]);
+
+        for (const auto& it : cachedStr)
+            result.insert(result.cend(), it);
+    }
+
+    return result;
 }
 
 #endif //GENERALUTILITY_GENERALUTILITY_H
