@@ -6,6 +6,12 @@
 
 class GeneralUtility {
 public:
+    //! Will return the index of `item` in `set`.
+    //! \tparam T_Type The type of `item`
+    //! \tparam T_Container The type of container
+    //! \param item The item to find the index for
+    //! \param set The container to be looking in
+    //! \return The index of `item` in `set`. -1 if not found.
     template <typename T_Type, class T_Container>
     static int Ord(const T_Type& item, const T_Container& set);
 private:
