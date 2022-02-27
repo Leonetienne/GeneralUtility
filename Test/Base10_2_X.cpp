@@ -75,3 +75,23 @@ TEST_CASE(__FILE__"/TestPadding", "[Base10_2_X]")
     // Verify
     REQUIRE(out == expected_out);
 }
+
+// Tests that conversion with more complex 'digits' works. Weird-ass usecase
+TEST_CASE(__FILE__"/BaseWeird_to_10", "[Base10_2_X]")
+{
+    // Setup
+
+    // Yes... That is actually our base...
+    const std::vector<std::string> set = { "Banana", "Apple", "Peach", "Strawberry", "Tomato", "Cherry" };
+
+    const std::uint64_t in = 69;
+
+    // Yes, that is a fucking number. It's 69 in whatever the fuck that base is
+    const std::vector<std::string> expected_out = { "Apple", "Cherry", "Strawberry" };
+
+    // Exercise
+    const std::vector<std::string> out = GeneralUtility::Base10_2_X(in, set);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}

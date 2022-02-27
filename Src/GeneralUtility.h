@@ -38,7 +38,8 @@ public:
     //! \param num The number to be converted
     //! \param set The desired set/base for the output to be in
     //! \return `num` in base `set`
-    static std::string Base10_2_X(const std::uint64_t& num, const std::string& set, const std::uint32_t minOutLen = 1);
+    template <class T_Container>
+    static T_Container Base10_2_X(const std::uint64_t& num, const T_Container& set, const std::uint32_t minOutLen = 1);
 
     //! Will convert a number from an arbitrary base to another arbitrary base.
     //! \param num A string representation of a number
@@ -216,6 +217,20 @@ T_ContainerOut GeneralUtility::BaseX_2_Y(const T_ContainerIn& num, const T_Conta
     }
 
     return result;
+}
+
+template <class T_Container>
+T_Container GeneralUtility::Base10_2_X(const std::uint64_t &num, const T_Container& set, const std::uint32_t minOutLen) {
+    // Convert num to a string
+    std::stringstream ss;
+    ss << num;
+    const std::string numStr = ss.str();
+
+    // Use BaseX_2_Y to convert to outbase
+    const T_Container convertedNum = BaseX_2_Y<std::string, T_Container>(numStr, "0123456789", set, minOutLen);
+
+    // return it
+    return convertedNum;
 }
 
 #endif //GENERALUTILITY_GENERALUTILITY_H
