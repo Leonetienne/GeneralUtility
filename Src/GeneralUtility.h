@@ -19,7 +19,7 @@ public:
 
     //! Will divide a number of arbitrary base in `dividend` by an integer divisor.
     //! This is a specific helper function for the base conversion functions.
-    //! \param dividend The number to be divided in string form
+    //! \param dividend The number to be divided in listlike container-form (such as a string)
     //! \param divisor The integer divisor
     //! \param set The set/base of `dividend`
     //! \return A pair of the result. (result, rest)
@@ -27,7 +27,7 @@ public:
     static std::pair<T_Container, int> DigitstringDivision(const T_Container& dividend, const unsigned int divisor, const T_Container& set);
 
     //! Will convert a number of arbitrary base to base 10
-    //! \param num A string representing the number
+    //! \param num A listlike container representing the number (such as a string)
     //! \param set The set/base of the number
     //! \return A 64-bit integer representing the number
     template <class T_Container>
@@ -36,13 +36,13 @@ public:
     //! Will convert a number to an arbitrary base.
     //! This just a wrapper for BaseX_2_Y.
     //! \param num The number to be converted
-    //! \param set The desired set/base for the output to be in
+    //! \param set The desired set/base for the output to be in. Should be a listlike container (such as a string)
     //! \return `num` in base `set`
     template <class T_Container>
     static T_Container Base10_2_X(const std::uint64_t& num, const T_Container& set, const std::uint32_t minOutLen = 1);
 
     //! Will convert a number from an arbitrary base to another arbitrary base.
-    //! \param num A string representation of a number
+    //! \param num A representation of a number in a listlike container (such as a string)
     //! \param set_in The set/base of the input
     //! \param set_out The desired set/base to output
     //! \param minLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
