@@ -1,6 +1,8 @@
 #include <BaseConversion.h>
 #include "Catch2.h"
 
+using namespace Leonetienne::GeneralUtility;
+
 // Tests base 10 to 10
 TEST_CASE(__FILE__"/Base10_to_10", "[BaseConversion][BaseX_2_10]")
 {

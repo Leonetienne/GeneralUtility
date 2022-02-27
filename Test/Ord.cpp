@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+using namespace Leonetienne::GeneralUtility;
+
 // Tests that the Ord method works with characters in a string
 TEST_CASE(__FILE__"/WorksWithCharsInString", "[ContainerUtility][Ord]")
 {

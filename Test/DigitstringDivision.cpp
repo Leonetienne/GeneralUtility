@@ -5,6 +5,8 @@
 #include <time.h>
 #include <stdexcept>
 
+using namespace Leonetienne::GeneralUtility;
+
 // Tests that basic division (base10) is working, with oracle values
 TEST_CASE(__FILE__"/Base10", "[BaseConversion][DigitstringDivision]")
 {
