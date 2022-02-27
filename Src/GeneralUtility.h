@@ -29,13 +29,20 @@ public:
     //! \return A 64-bit integer representing the number
     static std::uint64_t BaseX_2_10(const std::string& num, const std::string& set);
 
+    //! Will convert a number to an arbitrary base.
+    //! This just a wrapper for BaseX_2_Y.
+    //! \param num The number to be converted
+    //! \param set The desired set/base for the output to be in
+    //! \return `num` in base `set`
+    static std::string Base10_2_X(const std::uint64_t& num, const std::string& set, const std::uint32_t minOutLen = 1);
+
     //! Will convert a number from an arbitrary base to another arbitrary base.
     //! \param num A string representation of a number
     //! \param set_in The set/base of the input
     //! \param set_out The desired set/base to output
     //! \param minLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
     //! \return `num` in base `set_out`
-    static std::string BaseX_2_Y(const std::string& num, const std::string& set_in, const std::string& set_out, const std::uint32_t minLen = 1);
+    static std::string BaseX_2_Y(const std::string& num, const std::string& set_in, const std::string& set_out, const std::uint32_t minOutLen = 1);
 
 private:
     // No instantiation! >:(

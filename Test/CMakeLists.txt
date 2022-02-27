@@ -13,6 +13,7 @@ add_executable(Test
         Ord.cpp
         StringDivision.cpp
         BaseX_2_10.cpp
+        Base10_2_X.cpp
         BaseX_2_Y.cpp
 )
 
