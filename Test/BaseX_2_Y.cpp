@@ -241,3 +241,19 @@ TEST_CASE(__FILE__"/Base1_fruits_to_10", "[BaseX_2_Y]")
     // Verify
     REQUIRE(out == expected_out);
 }
+
+// Tests that padding with custom digit types works
+TEST_CASE(__FILE__"/TestPadding_CustomDigitTypes", "[BaseX_2_Y]")
+{
+    // Setup
+    const std::string set_in  = "0123456789";
+    const std::vector<std::string> set_out = { "apple", "banana", "tomato" };
+    const std::string in           = "50";
+    const std::vector<std::string> expected_out = { "apple", "apple", "apple", "apple", "banana", "tomato", "banana", "tomato" };
+
+    // Exercise
+    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out, 8);
+
+    // Verify
+    REQUIRE(out == expected_out);
+}
