@@ -4,5 +4,5 @@ project(GeneralUtility)
 set(CMAKE_CXX_STANDARD 17)
 
 add_library(GeneralUtility
-        GeneralUtility.cpp
+        BaseConversion.h
 )

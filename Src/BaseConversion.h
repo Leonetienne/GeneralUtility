@@ -1,22 +1,15 @@
-#ifndef GENERALUTILITY_GENERALUTILITY_H
-#define GENERALUTILITY_GENERALUTILITY_H
+#ifndef GENERALUTILITY_BASECONVERSION_H
+#define GENERALUTILITY_BASECONVERSION_H
 
 #include <algorithm>
 #include <utility>
 #include <sstream>
 #include <stdexcept>
 
-class GeneralUtility {
-public:
-    //! Will return the index of `item` in `set`.
-    //! \tparam T_Type The type of `item`
-    //! \tparam T_Container The type of container
-    //! \param item The item to find the index for
-    //! \param set The container to be looking in
-    //! \return The index of `item` in `set`. -1 if not found.
-    template <typename T_Type, class T_Container>
-    static int Ord(const T_Type& item, const T_Container& set);
+#include "ContainerUtility.h"
 
+class BaseConversion {
+public:
     //! Will divide a number of arbitrary base in `dividend` by an integer divisor.
     //! This is a specific helper function for the base conversion functions.
     //! \param dividend The number to be divided in listlike container-form (such as a string)
@@ -52,7 +45,7 @@ public:
 
 private:
     // No instantiation! >:(
-    GeneralUtility();
+    BaseConversion();
 };
 
 namespace {
@@ -68,7 +61,7 @@ namespace {
 }
 
 template <class T_Container>
-std::uint64_t GeneralUtility::BaseX_2_10(const T_Container& num, const T_Container& set) {
+std::uint64_t BaseConversion::BaseX_2_10(const T_Container& num, const T_Container& set) {
     // If base is 0, throw logic error
     if (set.size() == 0)
         throw std::logic_error("Can't convert from base0! Please supply a nonempty set!");
@@ -86,24 +79,10 @@ std::uint64_t GeneralUtility::BaseX_2_10(const T_Container& num, const T_Contain
     return buf;
 }
 
-template<typename T_Type, class T_Container>
-int GeneralUtility::Ord(const T_Type& item, const T_Container& set) {
-    const auto result =
-            std::find_if(set.begin(), set.end(), [item](const T_Type& c) -> bool {
-                return c == item;
-            });
-
-    // No item found
-    if (result == set.end())
-        return -1;
-    else
-        return result - set.begin();
-}
-
 // Based on: https://www.geeksforgeeks.org/divide-large-number-represented-string/
 template <class T_Container>
 std::pair<T_Container, int>
-GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned int divisor, const T_Container& set) {
+BaseConversion::DigitstringDivision(const T_Container& dividend, const unsigned int divisor, const T_Container& set) {
     // Quick rejects:
 
     // No set? Throw logic error
@@ -120,7 +99,7 @@ GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned 
 
     // Verify that all digits are represented in the set/base
     for (const auto& c : dividend)
-        if (Ord(c, set) == -1)
+        if (ContainerUtility::Ord(c, set) == -1)
             throw std::logic_error("The supplied dividend contains a digit that is not represented in the set/base!");
 
 
@@ -129,11 +108,11 @@ GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned 
 
     // Find prefix of number that is larger than divisor.
     int idx = 0;
-    int temp = Ord(dividend[idx], set);
+    int temp = ContainerUtility::Ord(dividend[idx], set);
     while (temp < divisor) {
         idx++;
         if (idx < dividend.size())
-            temp = temp * set.size() + Ord(dividend[idx], set);
+            temp = temp * set.size() + ContainerUtility::Ord(dividend[idx], set);
         else
             break;
     }
@@ -150,7 +129,7 @@ GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned 
         // Take next digit of number
         idx++;
         if (idx < dividend.size())
-            temp = (temp % divisor) * set.size() + Ord(dividend[idx], set);
+            temp = (temp % divisor) * set.size() + ContainerUtility::Ord(dividend[idx], set);
     }
 
     // If divisor is greater than number
@@ -166,7 +145,7 @@ GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned 
 }
 
 template <class T_ContainerIn, class T_ContainerOut>
-T_ContainerOut GeneralUtility::BaseX_2_Y(const T_ContainerIn& num, const T_ContainerIn& set_in, const T_ContainerOut& set_out, const std::uint32_t minOutLen) {
+T_ContainerOut BaseConversion::BaseX_2_Y(const T_ContainerIn& num, const T_ContainerIn& set_in, const T_ContainerOut& set_out, const std::uint32_t minOutLen) {
     if ((set_in.size() == 0) || (set_out.size() == 0))
         throw std::logic_error("Can't convert from or to base0! Please supply a nonempty set!");
 
@@ -220,7 +199,7 @@ T_ContainerOut GeneralUtility::BaseX_2_Y(const T_ContainerIn& num, const T_Conta
 }
 
 template <class T_Container>
-T_Container GeneralUtility::Base10_2_X(const std::uint64_t &num, const T_Container& set, const std::uint32_t minOutLen) {
+T_Container BaseConversion::Base10_2_X(const std::uint64_t &num, const T_Container& set, const std::uint32_t minOutLen) {
     // Convert num to a string
     std::stringstream ss;
     ss << num;
@@ -233,4 +212,4 @@ T_Container GeneralUtility::Base10_2_X(const std::uint64_t &num, const T_Contain
     return convertedNum;
 }
 
-#endif //GENERALUTILITY_GENERALUTILITY_H
+#endif //GENERALUTILITY_BASECONVERSION_H

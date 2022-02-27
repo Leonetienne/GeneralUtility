@@ -1,37 +1,36 @@
-#include <GeneralUtility.h>
+#include <BaseConversion.h>
 #include "Catch2.h"
 #include <string>
 #include <vector>
 #include <time.h>
-#include <sstream>
 #include <stdexcept>
 
 // Tests that basic division (base10) is working, with oracle values
-TEST_CASE(__FILE__"/Base10", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/Base10", "[BaseConversion][DigitstringDivision]")
 {
     const std::string set = "0123456789";
 
     SECTION("No rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("200", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("200", 10, set);
         REQUIRE(res.first == "20");
         REQUIRE(res.second == 0);
     }
 
     SECTION("With rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("205", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("205", 10, set);
         REQUIRE(res.first == "20");
         REQUIRE(res.second == 5);
     }
 
     SECTION("With rest, and divisor > dividend") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("205", 299, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("205", 299, set);
         REQUIRE(res.first == "0");
         REQUIRE(res.second == 205);
     }
 }
 
 // Tests that basic division (base10) is working, by doing a lot of random, precalculated divisions
-TEST_CASE(__FILE__"/Base10_Randoms", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/Base10_Randoms", "[BaseConversion][DigitstringDivision]")
 {
     srand(time(0));
     const std::string set = "0123456789";
@@ -52,7 +51,7 @@ TEST_CASE(__FILE__"/Base10_Randoms", "[DigitstringDivision]")
         const std::string dividend = ss.str();
 
         // Compute results
-        const auto res = GeneralUtility::DigitstringDivision(dividend, i_divisor, set);
+        const auto res = BaseConversion::DigitstringDivision(dividend, i_divisor, set);
         const std::uint32_t actual_result = std::stoi(res.first);
         const std::uint32_t actual_rest   = res.second;
 
@@ -63,124 +62,124 @@ TEST_CASE(__FILE__"/Base10_Randoms", "[DigitstringDivision]")
 }
 
 // Tests that base16 division is working, with oracle values
-TEST_CASE(__FILE__"/Base16", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/Base16", "[BaseConversion][DigitstringDivision]")
 {
     const std::string set = "0123456789abcdef";
 
     SECTION("No rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("1f4", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("1f4", 10, set);
         REQUIRE(res.first == "32");
         REQUIRE(res.second == 0);
     }
 
     SECTION("With rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("1fd", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("1fd", 10, set);
         REQUIRE(res.first == "32");
         REQUIRE(res.second == 9);
     }
 
     SECTION("With rest, and divisor > dividend") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("1f4", 999, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("1f4", 999, set);
         REQUIRE(res.first == "0");
         REQUIRE(res.second == 500);
     }
 }
 
 // Tests that base2 division is working, with oracle values
-TEST_CASE(__FILE__"/Base2", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/Base2", "[BaseConversion][DigitstringDivision]")
 {
     const std::string set = "01";
 
     SECTION("No rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("111110100", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("111110100", 10, set);
         REQUIRE(res.first == "110010");
         REQUIRE(res.second == 0);
     }
 
     SECTION("With rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("111111011", 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("111111011", 10, set);
         REQUIRE(res.first == "110010");
         REQUIRE(res.second == 7);
     }
     SECTION("With rest, and divisor > dividend") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("111110100", 599, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("111110100", 599, set);
         REQUIRE(res.first == "0");
         REQUIRE(res.second == 500);
     }
 }
 
 // Tests that fucking big bases are working, with oracle values
-TEST_CASE(__FILE__"/BaseFuckingBig", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/BaseFuckingBig", "[BaseConversion][DigitstringDivision]")
 {
     const std::string set = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     SECTION("No rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("9RieQV", 29915, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("9RieQV", 29915, set);
         REQUIRE(res.first == "1DGL");
         REQUIRE(res.second == 0);
     }
 
     SECTION("With rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("9RieQZ", 29915, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("9RieQZ", 29915, set);
         REQUIRE(res.first == "1DGL");
         REQUIRE(res.second == 4);
     }
     SECTION("With rest, and divisor > dividend") {
-        const auto res = GeneralUtility::DigitstringDivision<std::string>("8x", 600, set);
+        const auto res = BaseConversion::DigitstringDivision<std::string>("8x", 600, set);
         REQUIRE(res.first == "0");
         REQUIRE(res.second == 555);
     }
 }
 
 // Tests that having a dividend of size 0 returns 0
-TEST_CASE(__FILE__"/DividendLengthZero", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/DividendLengthZero", "[BaseConversion][DigitstringDivision]")
 {
-    const auto& res = GeneralUtility::DigitstringDivision<std::string>("", 19, "0123456789");
+    const auto& res = BaseConversion::DigitstringDivision<std::string>("", 19, "0123456789");
     REQUIRE(res.first == "0");
     REQUIRE(res.second == 0);
 }
 
 // Tests that a division by zero exception is thrown when appropriate
-TEST_CASE(__FILE__"/DivisionByZero", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/DivisionByZero", "[BaseConversion][DigitstringDivision]")
 {
     REQUIRE_THROWS_AS(
-      GeneralUtility::DigitstringDivision<std::string>("699", 0, "0123456789")
+            BaseConversion::DigitstringDivision<std::string>("699", 0, "0123456789")
     , std::overflow_error);
 }
 
 // Tests that a logic error is thrown when the supplied set is empty
-TEST_CASE(__FILE__"/NoSetSupplied", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/NoSetSupplied", "[BaseConversion][DigitstringDivision]")
 {
     REQUIRE_THROWS_AS(
-            GeneralUtility::DigitstringDivision<std::string>("699", 5, "")
+            BaseConversion::DigitstringDivision<std::string>("699", 5, "")
     , std::logic_error);
 }
 
 // Tests that a logic error is thrown if the dividend contains a character not present in the set
-TEST_CASE(__FILE__"/InvalidDigitsInDividend", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/InvalidDigitsInDividend", "[BaseConversion][DigitstringDivision]")
 {
     REQUIRE_THROWS_AS(
-            GeneralUtility::DigitstringDivision<std::string>("699z", 5, "0123465789")
+            BaseConversion::DigitstringDivision<std::string>("699z", 5, "0123465789")
     , std::logic_error);
 }
 
 // Tests that weird, abstract bases are working, with oracle values
-TEST_CASE(__FILE__"/BaseWeird", "[DigitstringDivision]")
+TEST_CASE(__FILE__"/BaseWeird", "[BaseConversion][DigitstringDivision]")
 {
     const std::vector<std::string> set = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
 
     SECTION("No rest") {
-        const auto res = GeneralUtility::DigitstringDivision<std::vector<std::string>>({"apricot", "bilberry", "bell pepper"}, 10, set);
+        const auto res = BaseConversion::DigitstringDivision<std::vector<std::string>>({"apricot", "bilberry", "bell pepper"}, 10, set);
         REQUIRE(res.first == std::vector<std::string>({"apricot", "apricot"}));
         REQUIRE(res.second == 0);
     }
     SECTION("With rest") {
-       const auto res = GeneralUtility::DigitstringDivision<std::vector<std::string>>({"avocado", "apple", "banana"}, 10, set);
+       const auto res = BaseConversion::DigitstringDivision<std::vector<std::string>>({"avocado", "apple", "banana"}, 10, set);
        REQUIRE(res.first == std::vector<std::string>({"apricot", "apricot"}));
        REQUIRE(res.second == 5);
     }
     SECTION("With rest, and divisor > dividend") {
-       const auto res = GeneralUtility::DigitstringDivision<std::vector<std::string>>({"apricot", "bilberry", "bell pepper"}, 100, set);
+       const auto res = BaseConversion::DigitstringDivision<std::vector<std::string>>({"apricot", "bilberry", "bell pepper"}, 100, set);
        REQUIRE(res.first == std::vector<std::string>({"apple"}));
        REQUIRE(res.second == 70);
     }

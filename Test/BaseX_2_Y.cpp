@@ -1,8 +1,8 @@
-#include <GeneralUtility.h>
+#include <BaseConversion.h>
 #include "Catch2.h"
 
 // Tests base 10 to 10
-TEST_CASE(__FILE__"/Base10_to_10", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base10_to_10", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -11,14 +11,14 @@ TEST_CASE(__FILE__"/Base10_to_10", "[BaseX_2_Y]")
     const std::string expected_out = "1990381";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests base 10 to 16
-TEST_CASE(__FILE__"/Base10_to_16", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base10_to_16", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -27,14 +27,14 @@ TEST_CASE(__FILE__"/Base10_to_16", "[BaseX_2_Y]")
     const std::string expected_out = "1e5eed";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests base 16 to 10
-TEST_CASE(__FILE__"/Base16_to_10", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base16_to_10", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789abcdef";
@@ -43,14 +43,14 @@ TEST_CASE(__FILE__"/Base16_to_10", "[BaseX_2_Y]")
     const std::string expected_out = "1990381";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests base 2 to 16
-TEST_CASE(__FILE__"/Base2_to_16", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base2_to_16", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "01";
@@ -59,14 +59,14 @@ TEST_CASE(__FILE__"/Base2_to_16", "[BaseX_2_Y]")
     const std::string expected_out = "18639af5f";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests base 16 to 2
-TEST_CASE(__FILE__"/Base16_to_2", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base16_to_2", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789abcdef";
@@ -75,14 +75,14 @@ TEST_CASE(__FILE__"/Base16_to_2", "[BaseX_2_Y]")
     const std::string expected_out = "110000110001110011010111101011111";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests base 16 to fucking big
-TEST_CASE(__FILE__"/Base16_to_FuckingBig", "[Base10_2_X]")
+TEST_CASE(__FILE__"/Base16_to_FuckingBig", "[BaseConversion][Base10_2_X]")
 {
     // Setup
     const std::string set_in  = "0123456789abcdef";
@@ -91,14 +91,14 @@ TEST_CASE(__FILE__"/Base16_to_FuckingBig", "[Base10_2_X]")
     const std::string expected_out = "aymsa";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that padding works
-TEST_CASE(__FILE__"/TestPadding_ResultSmallEnough", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/TestPadding_ResultSmallEnough", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -107,14 +107,14 @@ TEST_CASE(__FILE__"/TestPadding_ResultSmallEnough", "[BaseX_2_Y]")
     const std::string expected_out = "00000011"; // We are expecting the output to be padded to 8 digits.
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out, 8);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out, 8);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that nothing gets padded if the result is longer than the pad-length
-TEST_CASE(__FILE__"/TestPadding_ResultLargerThanPad", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/TestPadding_ResultLargerThanPad", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -123,14 +123,14 @@ TEST_CASE(__FILE__"/TestPadding_ResultLargerThanPad", "[BaseX_2_Y]")
     const std::string expected_out = "111110100";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out, 8);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out, 8);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that BaseX_2_Y is not limited by integer boundaries
-TEST_CASE(__FILE__"/NotLimitedByIntegerLimits", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/NotLimitedByIntegerLimits", "[BaseConversion][BaseX_2_Y]")
 {
     // So what we're doing is the following:
     // 1) Store a 4096-bit integer in a string (hex)
@@ -165,17 +165,17 @@ TEST_CASE(__FILE__"/NotLimitedByIntegerLimits", "[BaseX_2_Y]")
     ;
 
     // Convert to base62
-    const std::string base62 = GeneralUtility::BaseX_2_Y(hex_initial, set_hex, set_base62);
+    const std::string base62 = BaseConversion::BaseX_2_Y(hex_initial, set_hex, set_base62);
 
     // Convert back to hex
-    const std::string hex_convertedBack = GeneralUtility::BaseX_2_Y(base62, set_base62, set_hex);
+    const std::string hex_convertedBack = BaseConversion::BaseX_2_Y(base62, set_base62, set_hex);
 
     // Verify that hex_initial equals hex_converted
     REQUIRE(hex_initial == hex_convertedBack);
 }
 
 // Test to convert weird bases (longer to shorter)
-TEST_CASE(__FILE__"/BaseLongCustom_to_ShortCustom", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/BaseLongCustom_to_ShortCustom", "[BaseConversion][BaseX_2_Y]")
 {
     // Let's convert from fruits to beers
 
@@ -186,14 +186,14 @@ TEST_CASE(__FILE__"/BaseLongCustom_to_ShortCustom", "[BaseX_2_Y]")
     const std::vector<std::string> expected_out = { "flensburger", "corona", "heinecken" };
 
     // Exercise
-    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::vector<std::string> out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Test to convert weird bases (shorter to longer)
-TEST_CASE(__FILE__"/BaseShortCustom_to_LongCustom", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/BaseShortCustom_to_LongCustom", "[BaseConversion][BaseX_2_Y]")
 {
     // Let's convert from fruits to beers
 
@@ -204,14 +204,14 @@ TEST_CASE(__FILE__"/BaseShortCustom_to_LongCustom", "[BaseX_2_Y]")
     const std::vector<std::string> expected_out = { "apricot", "apple", "apple" };
 
     // Exercise
-    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::vector<std::string> out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that converting from a normal base to a custom base works
-TEST_CASE(__FILE__"/Base10_to_fruits", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base10_to_fruits", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -220,14 +220,14 @@ TEST_CASE(__FILE__"/Base10_to_fruits", "[BaseX_2_Y]")
     const std::vector<std::string> expected_out = { "avocado", "bell pepper", "banana", "bilberry" };
 
     // Exercise
-    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::vector<std::string> out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that converting from a custom base to a normal base works
-TEST_CASE(__FILE__"/Base1_fruits_to_10", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/Base1_fruits_to_10", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::vector<std::string> set_in = { "apple", "apricot", "avocado", "banana", "bell pepper", "bilberry" };
@@ -236,14 +236,14 @@ TEST_CASE(__FILE__"/Base1_fruits_to_10", "[BaseX_2_Y]")
     const std::string expected_out = "599";
 
     // Exercise
-    const std::string out = GeneralUtility::BaseX_2_Y(in, set_in, set_out);
+    const std::string out = BaseConversion::BaseX_2_Y(in, set_in, set_out);
 
     // Verify
     REQUIRE(out == expected_out);
 }
 
 // Tests that padding with custom digit types works
-TEST_CASE(__FILE__"/TestPadding_CustomDigitTypes", "[BaseX_2_Y]")
+TEST_CASE(__FILE__"/TestPadding_CustomDigitTypes", "[BaseConversion][BaseX_2_Y]")
 {
     // Setup
     const std::string set_in  = "0123456789";
@@ -252,7 +252,7 @@ TEST_CASE(__FILE__"/TestPadding_CustomDigitTypes", "[BaseX_2_Y]")
     const std::vector<std::string> expected_out = { "apple", "apple", "apple", "apple", "banana", "tomato", "banana", "tomato" };
 
     // Exercise
-    const std::vector<std::string> out = GeneralUtility::BaseX_2_Y(in, set_in, set_out, 8);
+    const std::vector<std::string> out = BaseConversion::BaseX_2_Y(in, set_in, set_out, 8);
 
     // Verify
     REQUIRE(out == expected_out);
