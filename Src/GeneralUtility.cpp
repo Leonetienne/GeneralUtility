@@ -16,6 +16,10 @@ namespace {
 }
 
 std::uint64_t GeneralUtility::BaseX_2_10(const std::string& num, const std::string& set) {
+    // If base is 0, throw logic error
+    if (set.length() == 0)
+        throw std::logic_error("Can't convert form base0! Please supply a nonempty set!");
+
     unsigned long long int buf = 0;
     for (std::size_t i = 0; i < num.length(); i++) {
         for (std::size_t j = 0; j < set.length(); j++) {
@@ -34,7 +38,7 @@ std::pair<std::string, int>
 GeneralUtility::StringDivision(const std::string& dividend, const unsigned int divisor, const std::string& set) {
     // No set? Throw logic error
     if (set.length() == 0)
-        throw std::logic_error("Can't divide a number of base0! Please supple a nonempty set!");
+        throw std::logic_error("Can't divide a number of base0! Please supply a nonempty set!");
     // No division by 0
     if (divisor == 0)
         throw std::overflow_error("Division by zero!");
