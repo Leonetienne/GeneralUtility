@@ -3,14 +3,16 @@
 #include <sstream>
 #include <stdexcept>
 
-// Fast 64-bit int power function
-std::uint64_t Powuli(const std::uint64_t& b, const std::uint64_t& e) {
-    std::uint64_t buf = 1;
+namespace {
+    // Fast 64-bit int power function
+    inline std::uint64_t Powuli(const std::uint64_t &b, const std::uint64_t &e) {
+        std::uint64_t buf = 1;
 
-    for (std::uint64_t i = 0; i < e; i++)
-        buf *= b;
+        for (std::uint64_t i = 0; i < e; i++)
+            buf *= b;
 
-    return buf;
+        return buf;
+    }
 }
 
 std::uint64_t GeneralUtility::BaseX_2_10(const std::string& num, const std::string& set) {

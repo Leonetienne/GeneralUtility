@@ -4,6 +4,7 @@
 #include <vector>
 #include <time.h>
 #include <sstream>
+#include <stdexcept>
 
 // Tests that basic division (base10) is working, with oracle values
 TEST_CASE(__FILE__"/Base10", "[StringDivision]")
@@ -129,4 +130,20 @@ TEST_CASE(__FILE__"/BaseFuckingBig", "[StringDivision]")
         REQUIRE(res.first == "0");
         REQUIRE(res.second == 555);
     }
+}
+
+// Tests that a division by zero exception is thrown when appropriate
+TEST_CASE(__FILE__"/DivisionByZero", "[StringDivision]")
+{
+    REQUIRE_THROWS_AS(
+      GeneralUtility::StringDivision("699", 0)
+    , std::overflow_error);
+}
+
+// Tests that a logic error is thrown when the supplied set is empty
+TEST_CASE(__FILE__"/NoSetSupplied", "[StringDivision]")
+{
+    REQUIRE_THROWS_AS(
+            GeneralUtility::StringDivision("699", 5, "")
+    , std::logic_error);
 }
