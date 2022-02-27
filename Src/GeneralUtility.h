@@ -14,6 +14,21 @@ public:
     //! \return The index of `item` in `set`. -1 if not found.
     template <typename T_Type, class T_Container>
     static int Ord(const T_Type& item, const T_Container& set);
+
+    //! Will divide a number of arbitrary base in `dividend` by an integer divisor.
+    //! This is a specific helper function for the base conversion functions.
+    //! \param dividend The number to be divided in string form
+    //! \param divisor The integer divisor
+    //! \param set The set/base of `dividend`
+    //! \return A pair of the result. (result, rest)
+    static std::pair<std::string, int> StringDivision(const std::string& dividend, const unsigned int divisor, const std::string& set = "0123456789");
+
+    //! Will convert a number of arbitrary base to base 10
+    //! \param num A string representing the number
+    //! \param set The set/base of the number
+    //! \return A 64-bit integer representing the number
+    static std::uint64_t BaseX_2_10(const std::string& num, const std::string& set);
+
 private:
     // No instantiation! >:(
     GeneralUtility();
