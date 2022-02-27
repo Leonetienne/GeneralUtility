@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <utility>
+#include <sstream>
+#include <stdexcept>
 
 class GeneralUtility {
 public:
@@ -21,7 +23,8 @@ public:
     //! \param divisor The integer divisor
     //! \param set The set/base of `dividend`
     //! \return A pair of the result. (result, rest)
-    static std::pair<std::string, int> StringDivision(const std::string& dividend, const unsigned int divisor, const std::string& set = "0123456789");
+    template <class T_Container>
+    static std::pair<T_Container, int> DigitstringDivision(const T_Container& dividend, const unsigned int divisor, const T_Container& set);
 
     //! Will convert a number of arbitrary base to base 10
     //! \param num A string representing the number
@@ -93,6 +96,71 @@ int GeneralUtility::Ord(const T_Type& item, const T_Container& set) {
         return -1;
     else
         return result - set.begin();
+}
+
+// Based on: https://www.geeksforgeeks.org/divide-large-number-represented-string/
+template <class T_Container>
+std::pair<T_Container, int>
+GeneralUtility::DigitstringDivision(const T_Container& dividend, const unsigned int divisor, const T_Container& set) {
+    // Quick rejects:
+
+    // No set? Throw logic error
+    if (set.size() == 0)
+        throw std::logic_error("Can't divide a number of base0! Please supply a nonempty set!");
+
+    // No division by 0
+    if (divisor == 0)
+        throw std::overflow_error("Division by zero!");
+
+    // Dividend size 0? Return 0.
+    if (dividend.size() == 0)
+        return std::make_pair(T_Container({set[0]}), 0);
+
+    // Verify that all digits are represented in the set/base
+    for (const auto& c : dividend)
+        if (Ord(c, set) == -1)
+            throw std::logic_error("The supplied dividend contains a digit that is not represented in the set/base!");
+
+
+    // Now for the actual algorithm:
+    T_Container result;
+
+    // Find prefix of number that is larger than divisor.
+    int idx = 0;
+    int temp = Ord(dividend[idx], set);
+    while (temp < divisor) {
+        idx++;
+        if (idx < dividend.size())
+            temp = temp * set.size() + Ord(dividend[idx], set);
+        else
+            break;
+    }
+
+    // Repeatedly divide divisor with temp. After
+    // every division, update temp to include one
+    // more digit.
+    int curRest = temp % divisor;
+    while (dividend.size() > idx) {
+        // Store result in answer i.e. temp / divisor
+        result.insert(result.cend(), set[temp / divisor]);
+        curRest = temp % divisor;
+
+        // Take next digit of number
+        idx++;
+        if (idx < dividend.size())
+            temp = (temp % divisor) * set.size() + Ord(dividend[idx], set);
+    }
+
+    // If divisor is greater than number
+    if (result.size() == 0) {
+        // Generate 0-value digitstring
+        result.clear();
+        result.insert(result.cend(), set[0]);
+        return std::make_pair(result, BaseX_2_10(dividend, set));
+    }
+
+    // else return the answer
+    return std::make_pair(result, curRest);
 }
 
 #endif //GENERALUTILITY_GENERALUTILITY_H
