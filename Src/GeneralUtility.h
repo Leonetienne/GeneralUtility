@@ -27,7 +27,8 @@ public:
     //! \param num A string representing the number
     //! \param set The set/base of the number
     //! \return A 64-bit integer representing the number
-    static std::uint64_t BaseX_2_10(const std::string& num, const std::string& set);
+    template <class T_Container>
+    static std::uint64_t BaseX_2_10(const T_Container& num, const T_Container& set);
 
     //! Will convert a number to an arbitrary base.
     //! This just a wrapper for BaseX_2_Y.
@@ -48,6 +49,37 @@ private:
     // No instantiation! >:(
     GeneralUtility();
 };
+
+namespace {
+    // Fast 64-bit int power function
+    inline std::uint64_t Powuli(const std::uint64_t &b, const std::uint64_t &e) {
+        std::uint64_t buf = 1;
+
+        for (std::uint64_t i = 0; i < e; i++)
+            buf *= b;
+
+        return buf;
+    }
+}
+
+template <class T_Container>
+std::uint64_t GeneralUtility::BaseX_2_10(const T_Container& num, const T_Container& set) {
+    // If base is 0, throw logic error
+    if (set.size() == 0)
+        throw std::logic_error("Can't convert from base0! Please supply a nonempty set!");
+
+    unsigned long long int buf = 0;
+    for (std::size_t i = 0; i < num.size(); i++) {
+        for (std::size_t j = 0; j < set.size(); j++) {
+            if (num[i] == set[j]) {
+                buf += Powuli((std::uint64_t)set.size(), (uint64_t)(num.size() - (i + 1))) * j;
+                break;
+            }
+        }
+    }
+
+    return buf;
+}
 
 template<typename T_Type, class T_Container>
 int GeneralUtility::Ord(const T_Type& item, const T_Container& set) {

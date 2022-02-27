@@ -3,36 +3,6 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace {
-    // Fast 64-bit int power function
-    inline std::uint64_t Powuli(const std::uint64_t &b, const std::uint64_t &e) {
-        std::uint64_t buf = 1;
-
-        for (std::uint64_t i = 0; i < e; i++)
-            buf *= b;
-
-        return buf;
-    }
-}
-
-std::uint64_t GeneralUtility::BaseX_2_10(const std::string& num, const std::string& set) {
-    // If base is 0, throw logic error
-    if (set.length() == 0)
-        throw std::logic_error("Can't convert from base0! Please supply a nonempty set!");
-
-    unsigned long long int buf = 0;
-    for (std::size_t i = 0; i < num.length(); i++) {
-        for (std::size_t j = 0; j < set.length(); j++) {
-            if (num[i] == set[j]) {
-                buf += Powuli((std::uint64_t)set.length(), (uint64_t)(num.length() - (i + 1))) * j;
-                break;
-            }
-        }
-    }
-
-    return buf;
-}
-
 // Based on: https://www.geeksforgeeks.org/divide-large-number-represented-string/
 std::pair<std::string, int>
 GeneralUtility::StringDivision(const std::string& dividend, const unsigned int divisor, const std::string& set) {

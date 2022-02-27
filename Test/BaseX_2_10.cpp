@@ -65,6 +65,26 @@ TEST_CASE(__FILE__"/BaseFuckingBig_to_10", "[BaseX_2_10]")
 TEST_CASE(__FILE__"/NoSetSupplied", "[BaseX_2_10]")
 {
     REQUIRE_THROWS_AS(
-            GeneralUtility::BaseX_2_10("699", "")
+            GeneralUtility::BaseX_2_10<std::string>("699", "")
     , std::logic_error);
+}
+
+// Tests that conversion with more complex 'digits' works. Weird-ass usecase
+TEST_CASE(__FILE__"/BaseWeird_to_10", "[BaseX_2_10]")
+{
+    // Setup
+
+    // Yes... That is actually our base...
+    const std::vector<std::string> set = { "Banana", "Apple", "Peach", "Strawberry", "Tomato", "Cherry" };
+
+    // Yes, that is a fucking number. It's 69 in whatever the fuck that base is
+    const std::vector<std::string> in = { "Apple", "Cherry", "Strawberry" };
+
+    const std::uint64_t expected_out =  69;
+
+    // Exercise
+    const std::uint64_t out = GeneralUtility::BaseX_2_10(in, set);
+
+    // Verify
+    REQUIRE(out == expected_out);
 }
