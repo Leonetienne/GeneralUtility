@@ -13,7 +13,7 @@ add_executable(Test
         Ord.cpp
         StringDivision.cpp
         BaseX_2_10.cpp
+        BaseX_2_Y.cpp
 )
 
 target_link_libraries(Test GeneralUtility)
-
