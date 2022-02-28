@@ -37,6 +37,7 @@ namespace Leonetienne {
             //! \tparam T_Container The type of container used for the digitstring
             //! \param num The number to be converted
             //! \param set The desired set/base for the output to be in. Should be a listlike container (such as a string)
+            //! \param minOutLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
             //! \return `num` in base `set`
             template<class T_Container>
             static T_Container
@@ -48,7 +49,7 @@ namespace Leonetienne {
             //! \param num A representation of a number in a listlike container (such as a string)
             //! \param set_in The set/base of the input
             //! \param set_out The desired set/base to output
-            //! \param minLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
+            //! \param minOutLen The minimum output length. Setting this will result in zero-padded output (Like, 00000001 instead of 1)
             //! \return `num` in base `set_out`
             template<class T_ContainerIn, class T_ContainerOut>
             static T_ContainerOut
