@@ -1,3 +1,5 @@
+[![Build Status](https://drone.leonetienne.de/api/badges/leonetienne/GeneralUtility/status.svg)](https://drone.leonetienne.de/leonetienne/GeneralUtility)
+
 # GeneralUtility
 is nothing but a useful, little utility library for my C++ projects.  
 It is public because it is a submodule required to compile my other open source projects.  
